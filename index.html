@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Hello World</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Trello</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <p>Deploy pertama dari Android.</p>
+
+    <header>
+        <h1>📋 Mini Trello</h1>
+        <p>Belajar GitHub + Vercel</p>
+    </header>
+
+    <div class="board">
+
+        <div class="column">
+            <h2>📝 To Do</h2>
+
+            <div class="card">Belajar Git dasar</div>
+            <div class="card">Memahami GitHub</div>
+            <div class="card">Deploy ke Vercel</div>
+
+            <input type="text" placeholder="Tugas baru..." class="task-input">
+            <button onclick="addTask(this)">Tambah</button>
+        </div>
+
+        <div class="column">
+            <h2>⚙️ Doing</h2>
+
+            <div class="card">Membuat Mini Trello</div>
+
+            <input type="text" placeholder="Tugas baru..." class="task-input">
+            <button onclick="addTask(this)">Tambah</button>
+        </div>
+
+        <div class="column">
+            <h2>✅ Done</h2>
+
+            <div class="card">Hello World</div>
+            <div class="card">Deploy pertama</div>
+
+            <input type="text" placeholder="Tugas baru..." class="task-input">
+            <button onclick="addTask(this)">Tambah</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
