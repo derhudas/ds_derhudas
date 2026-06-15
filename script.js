@@ -22,6 +22,9 @@ async function loadTasks() {
 
         return;
     }
+    
+    document.body.innerHTML += `
+            <pre>${JSON.stringify(data)}</pre>
 
     document.getElementById("total-count")
         .textContent = data.length;
