@@ -3,39 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Trello</title>
+    <title>Mini Trello Supabase</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header>
         <h1>📋 Mini Trello</h1>
-        <p>Belajar GitHub + Vercel</p>
+        <p>Data berasal dari Supabase</p>
     </header>
 
     <div class="board">
 
-    <div class="column">
-        <h2>📝 To Do</h2>
-        <div id="todo-list"></div>
+        <div class="column">
+            <h2>📝 To Do</h2>
+
+            <div id="todo-list">
+                Memuat data...
+            </div>
+        </div>
+
+        <div class="column">
+            <h2>⚙️ Doing</h2>
+
+            <div id="doing-list">
+                Memuat data...
+            </div>
+        </div>
+
+        <div class="column">
+            <h2>✅ Done</h2>
+
+            <div id="done-list">
+                Memuat data...
+            </div>
+        </div>
+
     </div>
 
-    <div class="column">
-        <h2>⚙️ Doing</h2>
-        <div id="doing-list"></div>
-    </div>
-
-    <div class="column">
-        <h2>✅ Done</h2>
-        <div id="done-list"></div>
-    </div>
-
-</div>
-    
-
+    <!-- Library Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- JavaScript aplikasi -->
     <script src="script.js"></script>
-    
 
 </body>
 </html>
