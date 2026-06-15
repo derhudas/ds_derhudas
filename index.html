@@ -15,37 +15,22 @@
 
     <div class="board">
 
-        <div class="column">
-            <h2>📝 To Do</h2>
-
-            <div class="card">Belajar Git dasar</div>
-            <div class="card">Memahami GitHub</div>
-            <div class="card">Deploy ke Vercel</div>
-
-            <input type="text" placeholder="Tugas baru..." class="task-input">
-            <button onclick="addTask(this)">Tambah</button>
-        </div>
-
-        <div class="column">
-            <h2>⚙️ Doing</h2>
-
-            <div class="card">Membuat Mini Trello</div>
-
-            <input type="text" placeholder="Tugas baru..." class="task-input">
-            <button onclick="addTask(this)">Tambah</button>
-        </div>
-
-        <div class="column">
-            <h2>✅ Done</h2>
-
-            <div class="card">Hello World</div>
-            <div class="card">Deploy pertama</div>
-
-            <input type="text" placeholder="Tugas baru..." class="task-input">
-            <button onclick="addTask(this)">Tambah</button>
-        </div>
-
+    <div class="column">
+        <h2>📝 To Do</h2>
+        <div id="todo-list"></div>
     </div>
+
+    <div class="column">
+        <h2>⚙️ Doing</h2>
+        <div id="doing-list"></div>
+    </div>
+
+    <div class="column">
+        <h2>✅ Done</h2>
+        <div id="done-list"></div>
+    </div>
+
+</div>
     
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
