@@ -1,3 +1,4 @@
+alert("script.js berjalan");
 const SUPABASE_URL = "https://cyevvhoessdlplpiiwdc.supabase.co";
 
 const SUPABASE_KEY =
