@@ -1,6 +1,6 @@
-const SUPABASE_URL = "GANTI_DENGAN_URL_SUPABASE";
+const SUPABASE_URL = "https://cyevvhoessdlplpiiwdc.supabase.co";
 
-const SUPABASE_KEY = "GANTI_DENGAN_PUBLISHABLE_KEY";
+const SUPABASE_KEY = "sb_publishable_M138Ywr1_yqE6B5i10yEZw_nUsCgwU1";
 
 const supabase = window.supabase.createClient(
     SUPABASE_URL,
