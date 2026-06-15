@@ -1,6 +1,6 @@
 const SUPABASE_URL = "https://cyevvhoessdlplpiiwdc.supabase.co";
 
-const SUPABASE_KEY = "PASTE_PUBLISHABLE_KEY_MILIKMU";
+const SUPABASE_KEY = "sb_publishable_M138Ywr1_yqE6B5i10yEZw_nUsCgwU1";
 
 document.body.innerHTML += "<p>Mencoba terhubung...</p>";
 
