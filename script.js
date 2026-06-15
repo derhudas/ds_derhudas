@@ -13,8 +13,7 @@ async function testConnection() {
 
         const { data, error } = await supabase
             .from("tasks")
-            .select("*")
-            .limit(3);
+            .select("*");
 
         if (error) {
             document.body.innerHTML += `
