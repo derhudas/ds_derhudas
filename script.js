@@ -23,11 +23,37 @@ ${JSON.stringify(error, null, 2)}
             `;
             return;
         }
+        
+        const todoList = document.getElementById("todo-list");
+    const doingList = document.getElementById("doing-list");
+    const doneList = document.getElementById("done-list");
 
-        document.body.innerHTML += `
-            <h2>Berhasil mengambil ${data.length} data!</h2>
-            <pre>${JSON.stringify(data, null, 2)}</pre>
+    todoList.innerHTML = "";
+    doingList.innerHTML = "";
+    doneList.innerHTML = "";
+
+    data.forEach(task => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <strong>${task.title}</strong><br>
+            Prioritas: ${task.priority}
         `;
+
+        if (task.status === "todo") {
+            todoList.appendChild(card);
+        }
+        else if (task.status === "doing") {
+            doingList.appendChild(card);
+        }
+        else if (task.status === "done") {
+            doneList.appendChild(card);
+        }
+
+    });
 
     } catch (err) {
         document.body.innerHTML += `
