@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Trello</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>📋 Mini Trello</h1>
+        <p>Dashboard tugas dengan Supabase</p>
+    </header>
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <span>Total</span>
+            <h2 id="total-count">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <span>To Do</span>
+            <h2 id="todo-count">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <span>Doing</span>
+            <h2 id="doing-count">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <span>Done</span>
+            <h2 id="done-count">0</h2>
+        </div>
+
+    </div>
+
+    <div class="board">
+
+        <div class="column">
+            <h2>📝 To Do</h2>
+            <div id="todo-list"></div>
+        </div>
+
+        <div class="column">
+            <h2>⚙️ Doing</h2>
+            <div id="doing-list"></div>
+        </div>
+
+        <div class="column">
+            <h2>✅ Done</h2>
+            <div id="done-list"></div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
