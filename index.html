@@ -58,6 +58,123 @@
 
     </div>
 
+    <div class="container">
+        <h1>🔌 Test Koneksi Groq API</h1>
+        <p>Menguji koneksi ke Groq API dengan model <strong>mixtral-8x7b-32768</strong></p>
+        
+        <button id="testBtn" onclick="testGroq()">🚀 Test Koneksi</button>
+        
+        <div id="status" class="status hidden"></div>
+        <div id="result" class="hidden"></div>
+    </div>
+
+    <script>
+        // API Key Groq (Langsung)
+        const GROQ_API_KEY = "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";
+
+        async function testGroq() {
+            const btn = document.getElementById('testBtn');
+            const statusDiv = document.getElementById('status');
+            const resultDiv = document.getElementById('result');
+
+            // Reset
+            btn.disabled = true;
+            btn.textContent = '⏳ Mengirim request...';
+            resultDiv.className = 'hidden';
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = '🔄 Mengirim request ke Groq API...';
+            statusDiv.classList.remove('hidden');
+
+            try {
+                // Kirim request ke Groq
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${GROQ_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'mixtral-8x7b-32768',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'Kamu adalah asisten yang membantu testing API.'
+                            },
+                            {
+                                role: 'user',
+                                content: 'Balas dengan: "Koneksi Groq API berhasil! 🎉"'
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 50
+                    })
+                });
+
+                // Cek response
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`HTTP ${response.status}: ${errorData.error?.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                const aiResponse = data.choices[0].message.content;
+
+                // Tampilkan hasil sukses
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = '✅ Koneksi berhasil!';
+
+                resultDiv.className = 'result-box';
+                resultDiv.innerHTML = `
+                    <h2>✅ Test Berhasil</h2>
+                    <hr>
+                    <p><strong>Response AI:</strong></p>
+                    <pre>${aiResponse}</pre>
+                    <div class="detail">
+                        <strong>📊 Detail Response:</strong><br>
+                        Model: ${data.model}<br>
+                        Tokens digunakan: ${data.usage.total_tokens} tokens<br>
+                        Prompt tokens: ${data.usage.prompt_tokens}<br>
+                        Completion tokens: ${data.usage.completion_tokens}<br>
+                        Waktu: ${new Date().toLocaleString()}
+                    </div>
+                `;
+                resultDiv.classList.remove('hidden');
+
+            } catch (error) {
+                // Tampilkan error
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ Test gagal';
+
+                resultDiv.className = 'result-box error';
+                resultDiv.innerHTML = `
+                    <h2>❌ Test Gagal</h2>
+                    <hr>
+                    <p><strong>Error:</strong></p>
+                    <pre>${error.message}</pre>
+                    <div class="detail">
+                        <strong>💡 Tips:</strong><br>
+                        - Pastikan API Key valid<br>
+                        - Cek koneksi internet<br>
+                        - Pastikan API Key masih aktif<br>
+                        Waktu: ${new Date().toLocaleString()}
+                    </div>
+                `;
+                resultDiv.classList.remove('hidden');
+                
+                console.error('Error detail:', error);
+            }
+
+            // Reset button
+            btn.disabled = false;
+            btn.textContent = '🔄 Test Ulang';
+        }
+
+        // Jalankan test otomatis saat halaman dimuat
+        window.onload = function() {
+            setTimeout(testGroq, 500);
+        };
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 
