@@ -41,8 +41,8 @@ ${JSON.stringify(error, null, 2)}
         card.className = "card";
 
         card.innerHTML = `
-            <strong>${task.title}</strong><br>
-            Prioritas: ${task.priority}
+            <strong>${task.provider}</strong><br>
+            Prioritas: ${task.api_key}
         `;
 
         if (task.status === "todo") {
