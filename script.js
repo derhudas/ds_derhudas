@@ -330,6 +330,8 @@ ALTER TABLE tasks ADD COLUMN ai_recommendation BOOLEAN DEFAULT FALSE;
 ALTER TABLE tasks ADD COLUMN ai_suggestion TEXT;
 */
 
+document.body.innerHTML += "<p>🔌 Mencoba terhubung ke Supabase...</p>";
+
 async function testGroqConnection() {
     try {
         // 1. Koneksi ke Supabase
@@ -342,8 +344,7 @@ async function testGroqConnection() {
         const { data: apiData, error: apiError } = await supabase
             .from("api_keys")
             .select("api_key")
-            .eq("provider", "groq")
-            .single();
+            .eq("provider", "groq");
 
         if (apiError) {
             document.body.innerHTML += `
@@ -355,7 +356,21 @@ async function testGroqConnection() {
             return;
         }
 
-        const GROQ_API_KEY = apiData.api_key;
+        // Cek apakah data ada
+        if (!apiData || apiData.length === 0) {
+            document.body.innerHTML += `
+                <div style="color: orange; padding: 10px; border: 1px solid orange; margin: 10px 0;">
+                    <strong>⚠️ API Key tidak ditemukan:</strong><br>
+                    Pastikan tabel api_keys sudah dibuat dan ada data untuk provider 'groq'
+                </div>
+            `;
+            
+            // Tampilkan instruksi
+            showInstructions();
+            return;
+        }
+
+        const GROQ_API_KEY = apiData[0].api_key;
         document.body.innerHTML += `<p>✅ API Key Groq berhasil diambil dari database</p>`;
 
         // 3. Test koneksi ke Groq API
@@ -394,22 +409,42 @@ async function testGroqConnection() {
         const aiResponse = data.choices[0].message.content;
 
         // 5. Tampilkan hasil di bagian bawah halaman
-        const resultDiv = document.createElement('div');
-        resultDiv.style.cssText = `
-            margin-top: 30px;
-            padding: 20px;
-            border: 3px solid #4CAF50;
-            border-radius: 10px;
-            background-color: #f0f8f0;
-            font-family: Arial, sans-serif;
-        `;
-        resultDiv.innerHTML = `
-            <h2 style="color: #2E7D32;">✅ Test Koneksi Groq API</h2>
-            <hr>
-            <p><strong>Status:</strong> <span style="color: green;">Berhasil</span></p>
+        showResult(true, aiResponse, data);
+
+    } catch (err) {
+        // Tampilkan error di bagian bawah
+        showResult(false, null, null, err.message);
+        console.error('❌ Test Groq API gagal:', err);
+    }
+}
+
+// Fungsi untuk menampilkan hasil
+function showResult(success, response, data, errorMessage) {
+    const resultDiv = document.createElement('div');
+    resultDiv.style.cssText = `
+        margin-top: 30px;
+        padding: 20px;
+        border: 3px solid ${success ? '#4CAF50' : '#f44336'};
+        border-radius: 10px;
+        background-color: ${success ? '#f0f8f0' : '#ffebee'};
+        font-family: Arial, sans-serif;
+    `;
+    
+    let html = `
+        <h2 style="color: ${success ? '#2E7D32' : '#c62828'};">
+            ${success ? '✅' : '❌'} Test Koneksi Groq API
+        </h2>
+        <hr>
+        <p><strong>Status:</strong> <span style="color: ${success ? 'green' : 'red'};">
+            ${success ? 'Berhasil' : 'Gagal'}
+        </span></p>
+    `;
+
+    if (success) {
+        html += `
             <p><strong>Response AI:</strong></p>
             <div style="padding: 10px; background: white; border-radius: 5px; border: 1px solid #ddd;">
-                ${aiResponse}
+                ${response}
             </div>
             <p style="margin-top: 10px; font-size: 12px; color: #666;">
                 <strong>Detail:</strong><br>
@@ -418,36 +453,60 @@ async function testGroqConnection() {
                 Waktu: ${new Date().toLocaleString()}
             </p>
         `;
-        document.body.appendChild(resultDiv);
-
-        console.log('✅ Test Groq API sukses:', data);
-
-    } catch (err) {
-        // Tampilkan error di bagian bawah
-        const errorDiv = document.createElement('div');
-        errorDiv.style.cssText = `
-            margin-top: 30px;
-            padding: 20px;
-            border: 3px solid #f44336;
-            border-radius: 10px;
-            background-color: #ffebee;
-            font-family: Arial, sans-serif;
-        `;
-        errorDiv.innerHTML = `
-            <h2 style="color: #c62828;">❌ Test Koneksi Groq API Gagal</h2>
-            <hr>
+    } else {
+        html += `
             <p><strong>Error:</strong></p>
             <pre style="padding: 10px; background: white; border-radius: 5px; border: 1px solid #ddd; overflow-x: auto;">
-${err.message}
+${errorMessage}
             </pre>
             <p style="margin-top: 10px; font-size: 12px; color: #666;">
                 Waktu: ${new Date().toLocaleString()}
             </p>
         `;
-        document.body.appendChild(errorDiv);
-
-        console.error('❌ Test Groq API gagal:', err);
     }
+
+    resultDiv.innerHTML = html;
+    document.body.appendChild(resultDiv);
+}
+
+// Fungsi untuk menampilkan instruksi jika API key tidak ditemukan
+function showInstructions() {
+    const instDiv = document.createElement('div');
+    instDiv.style.cssText = `
+        margin-top: 20px;
+        padding: 20px;
+        border: 2px solid #2196F3;
+        border-radius: 10px;
+        background-color: #e3f2fd;
+        font-family: Arial, sans-serif;
+    `;
+    instDiv.innerHTML = `
+        <h3>📝 Instruksi Setup</h3>
+        <ol>
+            <li>Buat tabel <code>api_keys</code> di Supabase:</li>
+            <pre style="background: white; padding: 10px; border-radius: 5px; overflow-x: auto;">
+CREATE TABLE api_keys (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    provider TEXT NOT NULL UNIQUE,
+    api_key TEXT NOT NULL,
+    description TEXT,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+            </pre>
+            <li>Insert data Groq API key:</li>
+            <pre style="background: white; padding: 10px; border-radius: 5px; overflow-x: auto;">
+INSERT INTO api_keys (provider, api_key, description) 
+VALUES (
+    'groq', 
+    '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',
+    'Groq API Key untuk testing'
+);
+            </pre>
+            <li>Refresh halaman ini</li>
+        </ol>
+    `;
+    document.body.appendChild(instDiv);
 }
 
 // Jalankan test
