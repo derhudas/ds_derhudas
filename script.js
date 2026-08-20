@@ -12,10 +12,6 @@ async function testConnection() {
         );
 
         const { data, error } = await supabase
-            .from("tasks")
-            .select("*");
-
-        const { api, error } = await supabase
             .from("api_keys")
             .select("*");
 
@@ -36,7 +32,7 @@ ${JSON.stringify(error, null, 2)}
     doingList.innerHTML = "";
     doneList.innerHTML = "";
 
-    alert(api_keys);
+    alert(data);
 
     data.forEach(task => {
 
