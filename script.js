@@ -12,7 +12,7 @@ async function testConnection() {
         );
 
         const { data, error } = await supabase
-            .from("api_keys")
+            .from("tasks")
             .select("*");
 
         if (error) {
@@ -32,8 +32,6 @@ ${JSON.stringify(error, null, 2)}
     doingList.innerHTML = "";
     doneList.innerHTML = "";
 
-    alert(data);
-
     data.forEach(task => {
 
         const card = document.createElement("div");
@@ -41,8 +39,8 @@ ${JSON.stringify(error, null, 2)}
         card.className = "card";
 
         card.innerHTML = `
-            <strong>${task.provider}</strong><br>
-            Prioritas: ${task.api_key}
+            <strong>${task.title}</strong><br>
+            Prioritas: ${task.priority}
         `;
 
         if (task.status === "todo") {
