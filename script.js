@@ -15,6 +15,10 @@ async function testConnection() {
             .from("tasks")
             .select("*");
 
+        const { api, error } = await supabase
+            .from("api_keys")
+            .select("*");
+
         if (error) {
             document.body.innerHTML += `
                 <pre>Error:
@@ -31,6 +35,8 @@ ${JSON.stringify(error, null, 2)}
     todoList.innerHTML = "";
     doingList.innerHTML = "";
     doneList.innerHTML = "";
+
+    alert(api_keys);
 
     data.forEach(task => {
 
